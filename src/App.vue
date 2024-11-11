@@ -35,10 +35,10 @@ function del(index) {
 	list.value.splice(index, 1)
 }
 
-watch(list, (newList, oldList) => {
-	console.log('新的列表:', newList)
-	console.log('旧的列表:', oldList)
-}, {deep: true})
+// watch(list, (newList, oldList) => {
+// 	console.log('新的列表:', newList)
+// 	console.log('旧的列表:', oldList)
+// }, {deep: true})
 
 function loadInfo(info) {
 	str.value = info

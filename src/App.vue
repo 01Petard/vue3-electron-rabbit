@@ -1,6 +1,9 @@
 <script setup>
-import {ref, watch} from 'vue'
-import MyButton from './components/button.vue'
+import {ref} from 'vue'
+import axios from "axios";
+import MyButton from "@/components/button.vue";
+
+getList()
 
 const str = ref('')
 
@@ -19,6 +22,7 @@ const list = ref([
 	},
 ])
 
+
 function add() {
 	if (str.value === '') {
 		alert('请输入内容')
@@ -35,15 +39,57 @@ function del(index) {
 	list.value.splice(index, 1)
 }
 
-// watch(list, (newList, oldList) => {
-// 	console.log('新的列表:', newList)
-// 	console.log('旧的列表:', oldList)
-// }, {deep: true})
-
 function loadInfo(info) {
 	str.value = info
-	add()
+	addList()
 }
+
+async function getList() {
+	// axios.get('https://q6zv39.laf.run/get_list').then(res => {
+	// 	list.value = res.data.list
+	// })
+	const res = await axios({
+		url: 'https://q6zv39.laf.run/get_list',
+		method: 'GET',
+	})
+	list.value = res.data.list
+	console.log(res.data.list)
+}
+
+async function addList() {
+	await axios({
+		url: 'https://q6zv39.laf.run/add-todo',
+		method: 'POST',
+		data: {
+			"value": str.value,
+			"isCompleted": false
+		}
+	})
+	getList()
+}
+
+async function updateList(id) {
+	await axios({
+		url: 'https://q6zv39.laf.run/update_todo',
+		method: 'POST',
+		data: {
+			"id": id
+		}
+	})
+	getList()
+}
+
+async function deleteList(id) {
+	await axios({
+		url: 'https://q6zv39.laf.run/del_todo',
+		method: 'POST',
+		data: {
+			"id": id
+		}
+	})
+	getList()
+}
+
 
 </script>
 
@@ -52,21 +98,23 @@ function loadInfo(info) {
 	<div class="todo-app">
 
 		<div class="title">Todo App</div>
-		<MyButton @sendInfo="loadInfo" text="你好" code="200"></MyButton>
-		<MyButton @sendInfo="loadInfo" text="我好" code="300"></MyButton>
-		<MyButton @sendInfo="loadInfo" text="大家好" code="400"></MyButton>
+
 		<div class="todo-form">
 			<input type="text" v-model="str" class="todo-input" placeholder="Add Todo...">
-			<div @click="add" class="todo-button">Add</div>
+			<div @click="addList" class="todo-button">Add</div>
 		</div>
 
 		<div v-for="(item, index) in list" :key="index" class="item">
 			<div>
-				<input type="checkbox"/>
-				<span class="name">{{ index }}. {{ item.text }}</span>
+				<input @click="updateList(item._id)" v-model="item.isCompleted" type="checkbox"/>
+				<span class="name">{{ index }}. {{ item.value }}</span>
 			</div>
-			<div @click="del(index)" class="del">del</div>
+			<div @click="deleteList(item._id)" class="del">del</div>
 		</div>
+
+		<MyButton @sendInfo="loadInfo" text="你好" code="200"></MyButton>
+		<MyButton @sendInfo="loadInfo" text="我好" code="300"></MyButton>
+		<MyButton @sendInfo="loadInfo" text="大家好" code="400"></MyButton>
 
 	</div>
 </template>

@@ -17,13 +17,18 @@ function createWindow() {
     },
   });
 
-  // 生成文件路径
-  const indexPath = path.join(__dirname, '../dist/index.html');
-  console.log('Loading URL:', `file://${indexPath}`);
+  // 检查是否处于开发模式
+  const isDev = process.env.NODE_ENV !== 'production';
 
-  // 加载 Vue 开发服务器的地址
-  // win.loadURL('http://localhost:3000');
-  win.loadURL(`file://${indexPath}`);
+  if (isDev) {
+    // 开发模式下加载 Vite 开发服务器
+    win.loadURL('http://localhost:3000');
+  } else {
+    // 生产模式下加载打包后的文件
+    const indexPath = path.join(__dirname, '../dist/index.html');
+    console.log('Loading URL:', `file://${indexPath}`);
+    win.loadURL(`file://${indexPath}`);
+  }
 
   // 监听窗口关闭事件
   win.on('closed', () => {

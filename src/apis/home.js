@@ -1,13 +1,18 @@
-/**
- * @description: 获取banner图
- * @param {*}
- * @return {*}
- */
 import httpInstance from '@/utils/http'
 
-export function getBannerAPI() {
+/**
+ * @description: 获取banner图
+ * @return {*}
+ * @param params
+ */
+export function getBannerAPI(params = {}) {
+  // 不传的话默认为1获取主页轮播图，传2为获取分类页商品的轮播图
+  const {distributionSite = '1'} = params
   return httpInstance({
-    url: 'home/banner'
+    url: '/home/banner',
+    params: {
+      distributionSite
+    }
   })
 }
 

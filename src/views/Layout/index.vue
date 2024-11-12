@@ -20,6 +20,8 @@ onMounted(() => {
   <LayoutFixed/>
   <LayoutNav/>
   <LayoutHeader/>
+<!--  强制销毁重建-->
+<!--  <RouterView :key="$route.fullPath"/>-->
   <RouterView/>
   <LayoutFooter/>
 </template>

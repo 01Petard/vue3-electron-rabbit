@@ -1,6 +1,6 @@
-﻿import { app, BrowserWindow } from 'electron';
+﻿import {app, BrowserWindow} from 'electron';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import {fileURLToPath} from 'url';
 
 // 获取当前文件的目录路径
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -9,11 +9,14 @@ let win;  // 使用 let 声明 win 变量
 
 function createWindow() {
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1600,
+    height: 1080,
+    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
+      enableRemoteModule: true,
+      webSecurity: false, // 关闭Web安全检查
     },
   });
 

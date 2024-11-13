@@ -39,18 +39,30 @@
   "description": "An Electron application with Vue 3 using Vite",
   "author": "Your Name <your.email@example.com>",
   "build": {
-    "appId": "com.example.electron-vue3",
-    "productName": "Electron-vue3桌面应用",
+    "appId": "com.hzx.vue3-electron-rabbit",
+    "productName": "vue3-electron-rabbit",
     "directories": {
       "output": "dist"
     },
     "files": [
       "dist/**/*",
-      "electron/main.js"
+      "main.js",
+      "package.json",
+      "node_modules/**/*"
     ],
     "win": {
-      "target": "nsis",
-      "requestedExecutionLevel": "highestAvailable"
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     }
   }
 }
